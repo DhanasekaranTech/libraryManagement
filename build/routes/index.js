@@ -1,3 +1,4 @@
+"use strict";
 /*
 router files.
 
@@ -17,4 +18,4 @@ adminRoutes:
             '/viewUserBook/deleteUB'.
             '/viewUserBook/updateUB'.
 
-*/
+*/ 
