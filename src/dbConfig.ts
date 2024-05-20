@@ -1,15 +1,16 @@
 import { DataSource } from "typeorm";
+import { Book } from "./models/book";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: "localhost",
   port: 5432,
-  username: "your username",
-  password: "your password",
+  username: "postgres",
+  password: "task",
   database: "Library",
   synchronize: true,
   logging: false,
-  entities: [],
+  entities: [Book],
   migrations: [],
   subscribers: [],
 });
@@ -19,6 +20,6 @@ export const checkConnection = async () => {
     await AppDataSource.initialize();
     console.log("db connected successfully");
   } catch (error) {
-    console.log("cannot connect to db");
+    console.log("cannot connect to db" , error);
   }
 };
