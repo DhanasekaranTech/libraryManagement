@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../dbConfig";
 import {userBook} from "../models/userBook";
 
-
 //delete data in userBook table
 export const deleteUB = async (req: Request, res: Response) => {
   try {
