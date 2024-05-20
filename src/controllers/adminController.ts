@@ -42,8 +42,8 @@ export const deleteUB = async (req: Request, res: Response) => {
       .execute();
     return res.status(200).json({ message: "Book deleted" });
   } catch (error) {
-    res.status(500).json({ message: "cannot delete data" });
     console.log(error);
+    return res.status(500).json({ message: "cannot delete data" });
   }
 };
 
@@ -58,12 +58,10 @@ export const updateUB = async (req: Request, res: Response) => {
         .json({ message: "Invalid UB_ID. It must be an integer." });
     }
     if (!validateData(update)) {
-      return res
-        .status(400)
-        .json({
-          message:
-            "Invalid update data. Ensure all fields are correctly formatted.",
-        });
+      return res.status(400).json({
+        message:
+          "Invalid update data. Ensure all fields are correctly formatted.",
+      });
     }
 
     const userRepo = AppDataSource.getRepository(userBook);
@@ -75,7 +73,7 @@ export const updateUB = async (req: Request, res: Response) => {
     await userRepo.save(userBook);
     return res.status(200).json({ message: "updated successfully " });
   } catch (error) {
-    res.status(500).json({ message: "cannot update data" });
     console.log(error);
+    return res.status(500).json({ message: "cannot update data" });
   }
 };
