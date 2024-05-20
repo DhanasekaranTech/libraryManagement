@@ -1,9 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import { AppDataSource, checkConnection } from "./dbConfig";
 import { adminRoutes } from "./routes/adminRoutes";
-
+import "dotenv/config";
 const app: Application = express();
-const PORT: number = 2024;
+const PORT: number = parseInt(process.env.PORT as string) ||2003;
 
 app.use(express.json());
 //app.use("/user", userRoutes);

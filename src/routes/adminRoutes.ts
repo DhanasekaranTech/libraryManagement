@@ -6,6 +6,6 @@ const router = Router();
 router.delete("/deleteUB", adminMiddleware, deleteUB);
 
 //create route for admin to update a UB data
-router.put("/updateUB", adminMiddleware, updateUB);
+router.patch("/updateUB", adminMiddleware, updateUB);
 
 export { router as adminRoutes };
