@@ -1,9 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import { AppDataSource, checkConnection } from "./dbConfig";
 import { adminRoutes } from "./routes/adminRoutes";
-import { configDotenv } from "dotenv";
+import * as dotenv from "dotenv";
 
-configDotenv();
+dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 2003;
 
