@@ -2,30 +2,40 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../dbConfig";
 import { book } from "../models/book";
 const bookRepository = AppDataSource.getRepository(book);
-export const get= async (req: Request, res: Response) => {
-    try {
-      const books = await bookRepository.find();
-      console.log("showed all book");
-      return res.json(books);
-    } catch (error) {
-      console.log("can not show");
-      return res.status(500).json({ error: "Internal Server Error" });
-    }
-};
+if (
+  typeof bookId === "number" &&
+  typeof bookName === "string" 
   
+) {
+  return true;
+}
+return false;
+};
+const bookRepository = AppDataSource.getRepository(book);
+export const get= async (req: Request, res: Response) => {
+  try {
+    const books = await bookRepository.find();
+    console.log("showed all book");
+    return res.json(books);
+  } catch (error) {
+    console.log("can not show");
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
-  // Route to add a new book
+
+// Route to add a new book
 export const post= async (req: Request, res: Response) => {
-    try {
-      const newBook = bookRepository.create(req.body); 
-      const result = await bookRepository.save(newBook);
-      console.log("Record added successfully");
-      return res.status(201).json({ status: true, message: 'Record added successfully', result });
-    } catch (error) {
-      console.error('Error while adding book:', error);
-      return res.status(500).json({ status: false, message: 'Failed to add record', error });
-    }
-  };
+  try {
+    const newBook = bookRepository.create(req.body); 
+    const result = await bookRepository.save(newBook);
+    console.log("Record added successfully");
+    return res.status(201).json({ status: true, message: 'Record added successfully', result });
+  } catch (error) {
+    console.error('Error while adding book:', error);
+    return res.status(500).json({ status: false, message: 'Failed to add record', error });
+  }
+};
 
   // Route to get a book by ID
   export const del =async (req: Request, res: Response) => {
