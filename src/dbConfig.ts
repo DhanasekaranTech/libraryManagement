@@ -1,15 +1,17 @@
 import { DataSource } from "typeorm";
+import { User } from "./models/User";
+import 'dotenv/config'
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "your username",
-  password: "your password",
-  database: "Library",
+  host: process.env.DATABASE_HOSTNAME,
+  port: parseInt(process.env.DB_PORT as string),
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
   synchronize: true,
   logging: false,
-  entities: [],
+  entities: [User],
   migrations: [],
   subscribers: [],
 });
@@ -22,3 +24,5 @@ export const checkConnection = async () => {
     console.log("cannot connect to db");
   }
 };
+
+// checkConnection();
