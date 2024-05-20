@@ -1,15 +1,18 @@
 import { DataSource } from "typeorm";
+import "dotenv/config";
+const path = require('path')
+
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
+  host: process.env.DATABASE_HOSTNAME,
   port: 5432,
-  username: "your username",
-  password: "your password",
-  database: "Library",
-  synchronize: true,
-  logging: false,
-  entities: [],
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  synchronize: false,
+  logging: true,
+  entities: [path.join(process.cwd(), 'src/models/*.ts')],
   migrations: [],
   subscribers: [],
 });
