@@ -13,7 +13,7 @@ adminRoutes:
         '/viewBooks',
             '/viewBooks/postBook',
             '/viewBooks/deleteBook',
-        '/userBook.
+        '/viewUserBook.
             '/viewUserBook/deleteUB'.
             '/viewUserBook/updateUB'.
 

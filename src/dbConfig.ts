@@ -3,11 +3,12 @@ import "dotenv/config";
 import { User} from "./models/userTable"
 import { Book } from "./models/bookTable";
 import{UserBook} from "./models/userBookTable"
+const path = require('path')
 
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
+  host: process.env.DATABASE_HOSTNAME,
   port: 5432,
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
