@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
 import { User } from '../entity/User';
+import { userBook } from "../models/userBook";
+import { book } from "../models/book";
+import { validateData } from "./ValidateData"
 
 
 //Get All data from userBook table
@@ -16,24 +19,52 @@ export const getUserBooks = async (req: Request, res: Response) => {
   }
 };
 
-// check whether entered datum are valid or not
-const validateData = (data: any): boolean => {
-  const { UB_ID, bookId, bookName, userId, userName, startdate, enddate } =
-    data;
 
-  if (
-    typeof UB_ID === "number" &&
-    typeof bookId === "number" &&
-    typeof bookName === "string" &&
-    typeof userId === "number" &&
-    typeof userName === "string" &&
-    new Date(startdate).toString() !== "Invalid Date" &&
-    new Date(enddate).toString() !== "Invalid Date"
-  ) {
-    return true;
+// Route to show book
+export const showbook = async (req: Request, res: Response) => {
+  const bookRepository = AppDataSource.getRepository(book);
+  try {
+    const books = await bookRepository.find();
+    console.log("showed all book");
+    return res.json(books);
+  } catch (error) {
+    console.error("Error to add book", error);
+    return res.status(500).json({ status: 500 , message: "Internal Server Error" });
   }
-  return false;
 };
+
+// Route to add a new book
+export const addnewbook  = async (req: Request, res: Response) => {
+  const bookRepository = AppDataSource.getRepository(book);
+  try {
+    const { bookName } = req.body;
+    const newBook = bookRepository.create(req.body); 
+    const result = await bookRepository.save(newBook);
+    console.log("Record added successfully");
+    return res.status(201).json({ status: 201, message: 'Record added successfully', });
+  } catch (error) {
+    console.error('Error while adding book:', error);
+    return res.status(500).json({ status: 500, message: 'Failed to add record', });
+  }
+};
+
+  // Route to get a book by ID
+  export const deletebook = async (req: Request, res: Response) => {
+    const bookRepository = AppDataSource.getRepository(book);
+    try {
+      const bookId = parseInt(req.params.id);
+      const book = await bookRepository.findOneBy({ bookId }); 
+      if (!book) {
+        return res.status(404).json({ status: 404, message: 'Book not found' });
+      }
+      await bookRepository.delete(bookId);
+      console.log("Record deleted successfully");
+      return res.status(200).json({ status: 200, message: 'Record deleted successfully' });
+    } catch (error) {
+      console.error('Error while deleting book:', error);
+      return res.status(500).json({ status: 500, message: 'Failed to delete record', });
+    }
+  };
 //delete data in userBook table
 export const deleteUB = async (req: Request, res: Response) => {
   try {
