@@ -11,10 +11,12 @@ export const AppDataSource = new DataSource({
 
   // password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: true,
+  synchronize: false,
   logging: false,
+  
   entities: [path.join(process.cwd(), 'src/models/*.ts')],
-  migrations: [],
+  migrations: ["./src/migration/*.ts"],
+  migrationsTableName: "book_migration_table",
   subscribers: [],
 });
 
