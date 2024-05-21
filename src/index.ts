@@ -3,6 +3,7 @@ import { Application, Request, Response } from "express";
 import { AppDataSource, checkConnection } from "./dbConfig";
 import { userRoutes } from "./routes/userRouters";
 import { adminRoutes } from "./routes/adminRoutes";
+
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 2003;
 app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+//app.use("/user", userRoutes);
+
 
 
 

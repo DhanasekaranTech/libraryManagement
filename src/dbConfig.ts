@@ -3,8 +3,10 @@ import "dotenv/config";
 import { User} from "./models/userTable"
 import { Book } from "./models/bookTable";
 import{UserBook} from "./models/userBookTable"
+import {config} from "dotenv";
 const path = require('path')
 
+config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,10 +15,11 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: true,
+  synchronize: false,
   logging: false,
-  entities: [User,Book,UserBook],
-  migrations: [],
+  entities: [path.join(process.cwd(), 'src/model/*.ts')],
+  migrations: ["./src/migration/*.ts"],
+  migrationsTableName: "book_migration_table",
   subscribers: [],
 });
 
