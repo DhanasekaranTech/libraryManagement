@@ -7,13 +7,10 @@ export const AppDataSource = new DataSource({
   port: 5432,
   host: process.env.DATABASE_HOSTNAME,
   username: process.env.DATABASE_USERNAME,
-  password:"password",
-
-  // password: process.env.DATABASE_PASSWORD,
+  password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   synchronize: false,
   logging: false,
-  
   entities: [path.join(process.cwd(), 'src/models/*.ts')],
   migrations: ["./src/migration/*.ts"],
   migrationsTableName: "book_migration_table",
@@ -29,3 +26,7 @@ export const checkConnection = async () => {
     console.log(error);
   }
 };
+
+
+
+
