@@ -8,6 +8,6 @@ book table:
         bookId, bookName.
 
 userBook:
-        bookId, bookName, userId, userName, dueDate or start and end date.
+        UB-ID,bookId, bookName, userId, userName, dueDate or start and end date.
 
 */
