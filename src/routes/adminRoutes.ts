@@ -8,7 +8,7 @@ router.get("/AllUsers", adminMiddleware, getUserBooks);
 
 router.post('/postBook', adminMiddleware, addnewbook );
 router.get('/show', adminMiddleware, showbook );
-router.delete('/deleteBook/:id', deletebook); 
+router.delete('/deleteBook/:id',adminMiddleware, deletebook); 
 
 //create router for admin to delete a UB data
 router.delete("/deleteUB", adminMiddleware, deleteUB);

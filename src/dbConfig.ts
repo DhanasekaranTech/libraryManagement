@@ -1,7 +1,8 @@
-import { DataSource } from 'typeorm';
-import "dotenv/config";
+import { DataSource } from "typeorm";
+import {config} from "dotenv";
 const path = require('path')
 
+config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -10,10 +11,11 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: true,
-  logging: true,
-  entities: [path.join(process.cwd(), 'src/models/*.ts')],
-  migrations: [],
+  synchronize: false,
+  logging: false,
+  entities: [path.join(process.cwd(), 'src/model/*.ts')],
+  migrations: ["./src/migration/*.ts"],
+  migrationsTableName: "book_migration_table",
   subscribers: [],
 });
 
