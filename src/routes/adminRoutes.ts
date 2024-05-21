@@ -10,6 +10,6 @@ router.delete('/deleteBook/:id', deletebook);
 router.delete("/deleteUB", adminMiddleware, deleteUB);
 
 //create route for admin to update a UB data
-router.patch("/updateUB", adminMiddleware, updateUB);
-import
+router.put("/updateUB", adminMiddleware, updateUB);
+
 export { router as adminRoutes };
