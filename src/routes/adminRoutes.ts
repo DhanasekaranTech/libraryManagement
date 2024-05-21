@@ -2,8 +2,8 @@ import { Router } from "express";
 import { deleteUB, updateUB ,showbook , addnewbook , deletebook} from "../controllers/adminController";
 const router = Router();
 
-router.post('/postBook', addnewbook );
-router.get('/show', showbook );
+router.post('/postBook', adminMiddleware, addnewbook );
+router.get('/show', adminMiddleware, showbook );
 router.delete('/deleteBook/:id', deletebook); 
 
 //create router for admin to delete a UB data
