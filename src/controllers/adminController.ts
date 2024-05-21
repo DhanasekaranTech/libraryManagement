@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../dbConfig";
 import { book } from "../models/book";
 const bookRepository = AppDataSource.getRepository(book);
+const validateData = (data: any): boolean => {
+  const {  bookId, bookName } =data;
 if (
   typeof bookId === "number" &&
   typeof bookName === "string" 
