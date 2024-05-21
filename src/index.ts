@@ -7,11 +7,15 @@ import {config} from 'dotenv';
 //configuration dotenv
 config();
 
+import { adminRoutes } from "./routes/adminRoutes";
+
 const app: Application = express();
-const PORT = process.env.PORT || 5000;
+
+app.use("/user", userRoutes);
+const PORT = process.env.PORT || 2003;
 
 app.use(express.json());
-app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   return res.json({ message: "successssss" });
