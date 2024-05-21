@@ -1,4 +1,5 @@
-import express, { Application, Request, Response } from "express";
+import express from "express";
+import { Application, Request, Response } from "express";
 import { AppDataSource, checkConnection } from "./dbConfig";
 import { adminRoutes } from "./routes/adminRoutes";
 import * as dotenv from "dotenv";

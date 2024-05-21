@@ -1,4 +1,4 @@
-import { DataSource } from "typeorm";
+import { DataSource } from 'typeorm';
 import "dotenv/config";
 const path = require('path')
 
@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  synchronize: false,
+  synchronize: true,
   logging: true,
   entities: [path.join(process.cwd(), 'src/models/*.ts')],
   migrations: [],

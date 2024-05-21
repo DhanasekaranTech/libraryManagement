@@ -1,8 +1,24 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
+import { User } from '../entity/User';
 import { userBook } from "../models/userBook";
 import { book } from "../models/book";
 import { validateData } from "./ValidateData"
+
+
+//Get All data from userBook table
+
+export const getUserBooks = async (req: Request, res: Response) => {
+  try {
+    const userBookRepo = AppDataSource.getRepository(User);
+    const userBooks = await userBookRepo.find();
+    return res.status(200).json(userBooks);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Cannot retrieve data" });
+  }
+};
+
 
 // Route to show book
 export const showbook = async (req: Request, res: Response) => {
@@ -58,16 +74,16 @@ export const deleteUB = async (req: Request, res: Response) => {
         .status(400)
         .json({ message: "Invalid UB_ID. It must be an integer." });
     }
-    const userBookRepo = AppDataSource.getRepository(userBook);
-    const userBook = await userBookRepo.findOneBy({ UB_ID });
+    const userBookRepo = AppDataSource.getRepository(User);
+    const userBook = await userBookRepo.findOneBy({ id: UB_ID });
     if (!userBook) {
       return res.status(404).json({ message: "Book not found" });
     }
     await userBookRepo
       .createQueryBuilder()
       .delete()
-      .from(userBook)
-      .where({ UB_ID })
+      .from(User)
+      .where({ id: UB_ID })
       .execute();
     return res.status(200).json({ message: "Book deleted" });
   } catch (error) {
@@ -93,8 +109,8 @@ export const updateUB = async (req: Request, res: Response) => {
       });
     }
 
-    const userRepo = AppDataSource.getRepository(userBook);
-    const userBook = await userRepo.findOneBy({ UB_ID });
+    const userRepo = AppDataSource.getRepository(User);
+    const userBook = await userRepo.findOneBy({ id: UB_ID });
     if (!userBook) {
       return res.status(404).json({ message: "User not found" });
     }

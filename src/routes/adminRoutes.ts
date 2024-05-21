@@ -1,6 +1,10 @@
-import { Router } from "express";
-import { deleteUB, updateUB ,showbook , addnewbook , deletebook} from "../controllers/adminController";
+import { Router } from 'express';
+import { getUserBooks, deleteUB, updateUB, showbook , addnewbook , deletebook } from "../controllers/adminController";
+import { adminMiddleware } from '../middleware/adminmiddleware';
 const router = Router();
+
+// Endpoint to get all userbook
+router.get("/AllUsers", adminMiddleware, getUserBooks);
 
 router.post('/postBook', adminMiddleware, addnewbook );
 router.get('/show', adminMiddleware, showbook );
@@ -13,3 +17,4 @@ router.delete("/deleteUB", adminMiddleware, deleteUB);
 router.put("/updateUB", adminMiddleware, updateUB);
 
 export { router as adminRoutes };
+
