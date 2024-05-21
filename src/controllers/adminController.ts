@@ -1,58 +1,110 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../dbConfig";
+import { userBook } from "../models/userBook";
 import { book } from "../models/book";
-const bookRepository = AppDataSource.getRepository(book);
-const validateData = (data: any): boolean => {
-  const {  bookId, bookName } =data;
-if (
-  typeof bookId === "number" &&
-  typeof bookName === "string" 
-  
-) {
-  return true;
-}
-return false;
-};
-export const get= async (req: Request, res: Response) => {
+import { validateData } from "./ValidateData"
+
+// Route to show book
+export const showbook = async (req: Request, res: Response) => {
+  const bookRepository = AppDataSource.getRepository(book);
   try {
     const books = await bookRepository.find();
     console.log("showed all book");
     return res.json(books);
   } catch (error) {
-    console.log("can not show");
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error to add book", error);
+    return res.status(500).json({ status: 500 , message: "Internal Server Error" });
   }
 };
 
-
 // Route to add a new book
-export const post= async (req: Request, res: Response) => {
+export const addnewbook  = async (req: Request, res: Response) => {
+  const bookRepository = AppDataSource.getRepository(book);
   try {
+    const { bookName } = req.body;
     const newBook = bookRepository.create(req.body); 
     const result = await bookRepository.save(newBook);
     console.log("Record added successfully");
-    return res.status(201).json({ status: true, message: 'Record added successfully', result });
+    return res.status(201).json({ status: 201, message: 'Record added successfully', });
   } catch (error) {
     console.error('Error while adding book:', error);
-    return res.status(500).json({ status: false, message: 'Failed to add record', error });
+    return res.status(500).json({ status: 500, message: 'Failed to add record', });
   }
 };
 
   // Route to get a book by ID
-  export const del =async (req: Request, res: Response) => {
+  export const deletebook = async (req: Request, res: Response) => {
+    const bookRepository = AppDataSource.getRepository(book);
     try {
       const bookId = parseInt(req.params.id);
       const book = await bookRepository.findOneBy({ bookId }); 
       if (!book) {
-        return res.status(404).json({ status: false, message: 'Book not found' });
+        return res.status(404).json({ status: 404, message: 'Book not found' });
       }
       await bookRepository.delete(bookId);
       console.log("Record deleted successfully");
-      return res.status(200).json({ status: true, message: 'Record deleted successfully' });
+      return res.status(200).json({ status: 200, message: 'Record deleted successfully' });
     } catch (error) {
       console.error('Error while deleting book:', error);
-      return res.status(500).json({ status: false, message: 'Failed to delete record', error });
+      return res.status(500).json({ status: 500, message: 'Failed to delete record', });
     }
   };
-  
-  
+//delete data in userBook table
+export const deleteUB = async (req: Request, res: Response) => {
+  try {
+    const UB_ID = parseInt(req.params.id);
+    if (isNaN(UB_ID)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid UB_ID. It must be an integer." });
+    }
+    const userBookRepo = AppDataSource.getRepository(userBook);
+    const userBook = await userBookRepo.findOneBy({ UB_ID });
+    if (!userBook) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    await userBookRepo
+      .createQueryBuilder()
+      .delete()
+      .from(userBook)
+      .where({ UB_ID })
+      .execute();
+    return res.status(200).json({ message: "Book deleted" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "cannot delete data" });
+  }
+};
+
+//update data in userBook table
+export const updateUB = async (req: Request, res: Response) => {
+  try {
+    const UB_ID = parseInt(req.params.id);
+    const update = req.body;
+    if (isNaN(UB_ID)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid UB_ID. It must be an integer." });
+    }
+    if (!validateData(update)) {
+      return res.status(400).json({
+        message:
+          "Invalid update data. Ensure all fields are correctly formatted.",
+      });
+    }
+
+    const userRepo = AppDataSource.getRepository(userBook);
+    const userBook = await userRepo.findOneBy({ UB_ID });
+    if (!userBook) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    Object.assign(userBook, update);
+    await userRepo.save(userBook);
+    return res.status(200).json({ message: "updated successfully " });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "cannot update data" });
+  }
+};
+
+
