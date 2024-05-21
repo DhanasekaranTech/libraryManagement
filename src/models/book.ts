@@ -6,16 +6,12 @@ import { Entity,PrimaryGeneratedColumn,Column } from "typeorm";
 
 @Entity()
 export class book {
-  @PrimaryGeneratedColumn()
-  bookId!: number;
+  @PrimaryGeneratedColumn('uuid')
+  bookId: string;
 
   @Column()
-  bookName!: string;
+  bookName: string;
 
-    constructor(bookId?: number, bookName?: string){
-        if (bookId) this.bookId=bookId;
-        if (bookName) this.bookName=bookName;
-
-    }
+    
 }
 
