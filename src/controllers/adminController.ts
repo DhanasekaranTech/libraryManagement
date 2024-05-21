@@ -13,7 +13,6 @@ if (
 }
 return false;
 };
-const bookRepository = AppDataSource.getRepository(book);
 export const get= async (req: Request, res: Response) => {
   try {
     const books = await bookRepository.find();
