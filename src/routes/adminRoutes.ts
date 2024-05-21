@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { getUserBooks, deleteUB, updateUB, showbook , addnewbook , deletebook } from "../controllers/adminController";
-import { adminMiddleware } from '../middleware/adminmiddleware';
+import { adminMiddleware } from '../middleware/adminMiddleware';
 const router = Router();
 
 // Endpoint to get all userbook
