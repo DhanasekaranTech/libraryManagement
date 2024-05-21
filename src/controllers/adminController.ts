@@ -44,15 +44,15 @@ export const deleteUB = async (req: Request, res: Response) => {
         .json({ message: "Invalid UB_ID. It must be an integer." });
     }
     const userBookRepo = AppDataSource.getRepository(User);
-    const userBook = await userBookRepo.findOneBy({ UB_ID });
+    const userBook = await userBookRepo.findOneBy({ id: UB_ID });
     if (!userBook) {
       return res.status(404).json({ message: "Book not found" });
     }
     await userBookRepo
       .createQueryBuilder()
       .delete()
-      .from(userBook)
-      .where({ UB_ID })
+      .from(User)
+      .where({ id: UB_ID })
       .execute();
     return res.status(200).json({ message: "Book deleted" });
   } catch (error) {
@@ -79,7 +79,7 @@ export const updateUB = async (req: Request, res: Response) => {
     }
 
     const userRepo = AppDataSource.getRepository(User);
-    const userBook = await userRepo.findOneBy({ UB_ID });
+    const userBook = await userRepo.findOneBy({ id: UB_ID });
     if (!userBook) {
       return res.status(404).json({ message: "User not found" });
     }
