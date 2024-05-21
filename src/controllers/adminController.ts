@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
-import { User } from '../entity/User';
+import { User } from '../model/User';
 import { userBook } from "../models/userBook";
 import { book } from "../models/book";
 import { validateData } from "./ValidateData"
