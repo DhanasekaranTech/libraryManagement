@@ -4,7 +4,7 @@ import { User } from "../models/userTable";
 import { Book } from "../models/bookTable";
 import { UserBook } from "../models/userBookTable";
 import bcrypt from 'bcryptjs';
-import { generateToken } from "./jwt";
+import jwt from 'jsonwebtoken';
 
 
 
@@ -35,39 +35,56 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 
-
-
-
-
 export const signIn = async (req: Request, res: Response) => {
-  try{
-  const { username, password } = req.body;
-  if (!username || typeof username !== 'string' || !password || typeof password !== 'string') {
-    return res.status(400).json({ message: 'Username and password are required and must be strings' });
-  }
-  const userRepository = AppDataSource.getRepository(User);
-  const user = await userRepository.findOne({ where: { username } });
-  if (!user) {
-    return res.status(401).json({ message: 'Invalid username or password' });
-  }
+  try {
+    const { username, password } = req.body;
+    if (
+      !username ||
+      typeof username !== "string" ||
+      !password ||
+      typeof password !== "string"
+    ) {
+      return res.status(400).json({
+        message: "Username and password are required and must be strings",
+      });
+    }
+    const userRepository = AppDataSource.getRepository(User);
+    const user = await userRepository.findOne({ where: { username } });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) {
-    return res.status(401).json({ message: 'Invalid username or password' });
-  }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid username or password" });
+    }
 
-  if (!user || !await bcrypt.compare(password, user.password)) {
-    return res.status(400).json({ message: 'Invalid credentials' });
-  }
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
 
-  // const token = jwt.sign({ userId: user.ID }, "SECRET_KEY", { expiresIn: '1h' });
-  const token = generateToken(user);
-  res.status(200).json({ message : `account sigin successfully   ${token} `});
-}catch (error) {
-  console.error('Error signing in:', error);
-  return res.status(500).json({ message: 'Error signing in', error });
-}
+    const token = jwt.sign({ userId: user.id,role:user.role }, "SECRET_KEY", {
+      expiresIn: "1h",
+    });
+    
+    res.status(200).json({ message: `account sigin successfully   ${token} ` });
+  } catch (error) {
+    console.error("Error signing in:", error);
+    return res.status(500).json({ message: "Error signing in", error });
+  }
 };
+
+export const book = async (req: Request, res: Response) => {
+  try {
+    return res.status(200).json({ message: "protected data" });
+  } catch (err) {
+    return res.status(300).json({ message: "access denied" });
+  }
+};
+
+
+
+
 
 
 

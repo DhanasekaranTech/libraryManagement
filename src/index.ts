@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 2003;
 app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
-//app.use("/user", userRoutes);
+
 
 
 
