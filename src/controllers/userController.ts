@@ -13,7 +13,7 @@ const userRepository = AppDataSource.getRepository(User);
 
 export async function createUser(req: Request, res: Response): Promise<Response> {
   try {
-    const { username, password } = req.body;
+    const { username , password } = req.body;
     if (!username || typeof username !== 'string' || !password || typeof password !== 'string') {
       return res.status(400).json({ message: 'Username and password are required and must be strings' });
     }
@@ -24,7 +24,10 @@ export async function createUser(req: Request, res: Response): Promise<Response>
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User(username, hashedPassword);
+    const user = new User();
+    user.username = username ; 
+    user.password = hashedPassword;
+
     const newUser = await userRepository.save(user);
 
     return res.status(201).json(newUser);

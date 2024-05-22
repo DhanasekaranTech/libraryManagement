@@ -11,8 +11,8 @@ export class User {
   @Column()
   password!: string;
 
-  constructor(username?: string, password?: string) {
-    if (username) this.username = username;
-    if (password) this.password = password;
-  }
+  @Column({default:"user"})
+  role!: string;
+
+  
 }
