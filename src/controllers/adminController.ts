@@ -1,19 +1,13 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
-<<<<<<< HEAD
 import { User } from '../models/User';
 import { book } from '../models/book';
-=======
-import { User } from '../model/User';
-import { userBook } from "../models/userBook";
-import { book } from "../model/book";
->>>>>>> cbd8c70cc87c31b2625399501dc66adbf0c67a92
-import { validateData } from "./ValidateData"
+import { validateData } from './ValidateData';
 
 
 //Get All data from userBook table
 
-export const getUserBooks = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const userBookRepo = AppDataSource.getRepository(User);
     const userBooks = await userBookRepo.find();
@@ -21,20 +15,6 @@ export const getUserBooks = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Cannot retrieve data" });
-  }
-};
-
-
-// Route to show book
-export const showbook = async (req: Request, res: Response) => {
-  const bookRepository = AppDataSource.getRepository(book);
-  try {
-    const books = await bookRepository.find();
-    console.log("showed all book");
-    return res.json(books);
-  } catch (error) {
-    console.error("Error to add book", error);
-    return res.status(500).json({ status: 500 , message: "Internal Server Error" });
   }
 };
 
