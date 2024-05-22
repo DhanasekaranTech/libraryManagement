@@ -1,14 +1,13 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
-import { User } from '../model/User';
-import { userBook } from "../models/userBook";
-import { book } from "../model/book";
-import { validateData } from "./ValidateData"
+import { User } from '../models/User';
+import { book } from '../models/book';
+import { validateData } from './ValidateData';
 
 
 //Get All data from userBook table
 
-export const getUserBooks = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   try {
     const userBookRepo = AppDataSource.getRepository(User);
     const userBooks = await userBookRepo.find();
@@ -16,20 +15,6 @@ export const getUserBooks = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Cannot retrieve data" });
-  }
-};
-
-
-// Route to show book
-export const showbook = async (req: Request, res: Response) => {
-  const bookRepository = AppDataSource.getRepository(book);
-  try {
-    const books = await bookRepository.find();
-    console.log("showed all book");
-    return res.json(books);
-  } catch (error) {
-    console.error("Error to add book", error);
-    return res.status(500).json({ status: 500 , message: "Internal Server Error" });
   }
 };
 
@@ -53,7 +38,7 @@ export const addnewbook  = async (req: Request, res: Response) => {
     const bookRepository = AppDataSource.getRepository(book);
     try {
       const bookId = parseInt(req.params.id);
-      const book = await bookRepository.findOneBy({ bookId }); 
+      const book = await bookRepository.findOneBy({ id: bookId }); 
       if (!book) {
         return res.status(404).json({ status: 404, message: 'Book not found' });
       }

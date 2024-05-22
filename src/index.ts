@@ -1,22 +1,21 @@
-import express from "express";
-import { Application, Request, Response } from "express";
-import { AppDataSource, checkConnection } from "./dbConfig";
+import express, { Application, Request, Response } from 'express';
+import { checkConnection } from './dbConfig';
+import { adminRoutes } from './routes/adminRoutes';
 
-import * as dotenv from "dotenv";
+import * as dotenv from 'dotenv';
 
 dotenv.config();
+
 const app: Application = express();
 const PORT = process.env.PORT || 2003;
 
 app.use(express.json());
-//app.use("/user", userRoutes);
+
+app.use('/admin', adminRoutes);
 
 
-app.get("/", (req: Request, res: Response) => {
-  return res.json({ message: "successssss" });
-});
-
+// Start the server and check the database connection
 app.listen(PORT, () => {
-  console.log(`listening in port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
   checkConnection();
 });
