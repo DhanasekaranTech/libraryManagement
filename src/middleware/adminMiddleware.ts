@@ -1,19 +1,30 @@
-import { Request, Response, NextFunction } from 'express';
-import { authMiddleware } from './authMiddleware';
-
-export const adminMiddleware = (req: Request, res: Response, next: NextFunction) => {
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
+import { authMiddleware } from "./authMidd";
+export const adminMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const authheader = req.headers.authorization;
+  if (!authheader) {
+    res.status(401).json({ message: "missing token" });
+  }
+  const token = authheader?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Access denied" });
+  }
   try {
-    authMiddleware(req, res, (err: any) => {
-      if (err) {
-        return next(err);
-      }
-      const user = (req as any).user;
-      if (!user || user.role !== 'admin') {
-        return res.status(403).json({ message: 'Forbidden: Admins only' });
-      }
-      next();
-    });
-  } catch (error) {
-    return next(error);
+    const decoded = jwt.verify(token, "SECRET_KEY");
+    (req as any).user = decoded;
+    const user = (req as any).user;
+    if (user.role !== "admin") {
+      console.log("Decoded user:", user);
+      return res.status(403).json({ message: "Access denied" });
+    }
+    next();
+  } catch (err) {
+    console.error("JWT verification error:", err);
+    return res.status(400).json({ message: "Invalid token" });
   }
 };
