@@ -5,6 +5,3 @@ controller files:
  adminController
 
 */
-
-
-
