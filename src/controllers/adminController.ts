@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import { AppDataSource } from "../dbConfig";
+<<<<<<< HEAD
 import { User } from '../models/User';
 import { book } from '../models/book';
+=======
+import { User } from '../model/User';
+import { userBook } from "../models/userBook";
+import { book } from "../model/book";
+>>>>>>> cbd8c70cc87c31b2625399501dc66adbf0c67a92
 import { validateData } from "./ValidateData"
 
 

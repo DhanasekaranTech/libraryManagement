@@ -7,6 +7,10 @@ const router = Router();
 router.get("/AllUsers", adminMiddleware, getUser);
 
 router.post('/postBook', adminMiddleware, addnewbook );
+<<<<<<< HEAD
+=======
+router.get('/show', adminMiddleware, showbook );
+>>>>>>> cbd8c70cc87c31b2625399501dc66adbf0c67a92
 router.delete('/deleteBook/:id',adminMiddleware, deletebook); 
 
 //create router for admin to delete a UB data
