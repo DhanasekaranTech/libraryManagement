@@ -4,8 +4,6 @@ import { config } from 'dotenv';
 
 config();
 
-
-
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: process.env.DATABASE_HOSTNAME,
@@ -16,7 +14,6 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: true,
   entities: [path.join(process.cwd(),'src/models/*.{ts,js}')],
-  migrationsTableName: "user_migration_table",
   migrations: ["./src/migration/*.{ts,js}"],
   subscribers: [],
 });
