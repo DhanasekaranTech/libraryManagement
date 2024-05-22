@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -19,4 +17,3 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     return res.status(400).json({ message: 'Invalid token' });
   }
 };
->>>>>>> cbd8c70cc87c31b2625399501dc66adbf0c67a92
