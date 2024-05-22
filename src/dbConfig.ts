@@ -1,4 +1,8 @@
 import { DataSource } from "typeorm";
+import "dotenv/config";
+import { User} from "./models/userTable"
+import { Book } from "./models/bookTable";
+import{UserBook} from "./models/userBookTable"
 import {config} from "dotenv";
 const path = require('path')
 
@@ -24,6 +28,7 @@ export const checkConnection = async () => {
     await AppDataSource.initialize();
     console.log("db connected successfully");
   } catch (error) {
+    
     console.log("cannot connect to db");
   }
 };

@@ -1,6 +1,8 @@
 import express from "express";
 import { Application, Request, Response } from "express";
 import { AppDataSource, checkConnection } from "./dbConfig";
+import { userRoutes } from "./routes/userRouters";
+import { adminRoutes } from "./routes/adminRoutes";
 
 import * as dotenv from "dotenv";
 
@@ -9,7 +11,12 @@ const app: Application = express();
 const PORT = process.env.PORT || 2003;
 
 app.use(express.json());
-//app.use("/user", userRoutes);
+app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
+
+
+
+
 
 
 app.get("/", (req: Request, res: Response) => {
