@@ -1,25 +1,25 @@
 import { DataSource } from "typeorm";
-import {config} from "dotenv";
-const path = require('path')
+import path from "path";
+import { config } from 'dotenv';
 
 config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: process.env.DATABASE_HOSTNAME,
-  port: 5432,
+  port: Number(process.env.DB_PORT) || 5432,
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   synchronize: false,
-  logging: false,
-  entities: [path.join(process.cwd(), 'src/model/*.ts')],
-  migrations: ["./src/migration/*.ts"],
-  migrationsTableName: "book_migration_table",
+  logging: true,
+  entities: [path.join(process.cwd(),'src/models/*.{ts,js}')],
+  migrations: ["./src/migration/*.{ts,js}"],
   subscribers: [],
 });
 
 export const checkConnection = async () => {
+
   try {
     await AppDataSource.initialize();
     console.log("db connected successfully");
@@ -27,3 +27,5 @@ export const checkConnection = async () => {
     console.log("cannot connect to db");
   }
 };
+
+// checkConnection();
