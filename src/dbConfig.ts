@@ -6,8 +6,8 @@ config();
 
 export const AppDataSource = new DataSource({
   type: "postgres",
-  port: 5432,
   host: process.env.DATABASE_HOSTNAME,
+  port: Number(process.env.DB_PORT) || 5432,
   username: process.env.DATABASE_USERNAME,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
@@ -20,6 +20,7 @@ export const AppDataSource = new DataSource({
 });
 
 export const checkConnection = async () => {
+
   try {
     await AppDataSource.initialize();
     console.log("db connected successfully");
@@ -27,3 +28,5 @@ export const checkConnection = async () => {
     console.log(error);
   }
 };
+
+// checkConnection();

@@ -1,16 +1,22 @@
+import "reflect-metadata";
 import express, { Application, Request, Response } from "express";
+import userRoutes from './routes/userRoutes'
 import { AppDataSource, checkConnection } from "./dbConfig";
+import {config} from 'dotenv';
 
-import * as dotenv from "dotenv";
+//configuration dotenv
+config();
+
+import { adminRoutes } from "./routes/adminRoutes";
 
 
-dotenv.config();
 const app: Application = express();
+
+app.use("/user", userRoutes);
 const PORT = process.env.PORT || 2003;
 
 app.use(express.json());
-//app.use("/user", userRoutes);
-
+app.use("/admin", adminRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   return res.json({ message: "successssss" });
