@@ -49,7 +49,6 @@ export const addnewbook  = async (req: Request, res: Response) => {
     return res.status(500).json({ status: 500, message: 'Failed to add record', });
   }
 };
-
   // Route to get a book by ID
   export const deletebook = async (req: Request, res: Response) => {
     const bookRepository = AppDataSource.getRepository(book);
