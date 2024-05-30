@@ -9,6 +9,7 @@ config();
 
 import { adminRoutes } from "./routes/adminRoutes";
 
+
 const app: Application = express();
 
 app.use("/user", userRoutes);

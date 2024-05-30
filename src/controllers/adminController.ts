@@ -6,9 +6,24 @@ import { book } from "../model/book";
 import { validateData } from "./ValidateData"
 
 
-//Get All data from userBook table
 
 export const getUserBooks = async (req: Request, res: Response) => {
+  try {
+    const userBookRepository = AppDataSource.getRepository(userBook);
+    const userBooks = await userBookRepository.find({ relations: ['user', 'book'] });
+    res.json(userBooks);
+  } catch (error) {
+    console.error('Error fetching user books:', error);
+    res.status(500).json({ message: 'Error fetching user books' });
+  }
+};
+
+
+
+
+//Get All data from userBook table
+
+export const getUser = async (req: Request, res: Response) => {
   try {
     const userBookRepo = AppDataSource.getRepository(User);
     const userBooks = await userBookRepo.find();
@@ -19,19 +34,6 @@ export const getUserBooks = async (req: Request, res: Response) => {
   }
 };
 
-
-// Route to show book
-export const showbook = async (req: Request, res: Response) => {
-  const bookRepository = AppDataSource.getRepository(book);
-  try {
-    const books = await bookRepository.find();
-    console.log("showed all book");
-    return res.json(books);
-  } catch (error) {
-    console.error("Error to add book", error);
-    return res.status(500).json({ status: 500 , message: "Internal Server Error" });
-  }
-};
 
 // Route to add a new book
 export const addnewbook  = async (req: Request, res: Response) => {

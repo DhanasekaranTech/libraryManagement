@@ -1,17 +1,10 @@
-
-import { Entity,PrimaryGeneratedColumn,Column } from "typeorm";
-
-
-
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
 export class book {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   bookId: string;
 
   @Column()
   bookName: string;
-
-    
 }
-
